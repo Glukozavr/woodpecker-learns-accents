@@ -1,11 +1,11 @@
--- Player logic
+-- Kinematic body controller
 
 -- these are the tweaks for the mechanics, feel free to change them for a different feeling
 -- max speed right/left
-local MAX_GROUND_SPEED = 100
-local MAX_AIR_SPEED = 80
+go.property("MAX_GROUND_SPEED", 100)
+go.property("MAX_AIR_SPEED", 80)
 -- max fall speed
-local MAX_FALL_SPEED = 500
+go.property("MAX_FALL_SPEED", 500)
 
 -- gravity pulling the player down in pixel units
 local GRAVITY = -500
@@ -64,7 +64,7 @@ local function play_animation(self, anim)
 	-- only play animations which are not already playing
 	if self.anim ~= anim then
 		-- tell the sprite to play the animation
-		sprite.play_flipbook(SPRITE, anim)
+		.play_flipbook(SPRITE, anim)
 		-- remember which animation is playing
 		self.anim = anim
 	end
@@ -127,7 +127,7 @@ function fixed_update(self, dt)
 		self.velocity.x = decelerate(self.velocity.x, 1, dt)
 		self.velocity.x = clamp(self.velocity.x, -MAX_AIR_SPEED, MAX_AIR_SPEED)
 	end
-	
+
 	-- move player
 	local pos = go.get_position()
 	pos = pos + self.velocity * dt
@@ -158,7 +158,7 @@ local function handle_obstacle_contact(self, normal, distance)
 	end
 	-- update distance in case the normals have changed
 	distance = distance * vmath.length(normal)
-	
+
 	if distance > 0 then
 		-- First, project the accumulated correction onto
 		-- the penetration vector
@@ -222,7 +222,7 @@ local function jump(self)
 		self.ground_contact = false
 		-- compress and stretch player for visual "juice"
 		squish()
-	-- allow double jump if still moving up
+		-- allow double jump if still moving up
 	elseif not self.double_jump and self.velocity.y > 0 then
 		self.velocity.y = self.velocity.y + DOUBLEJUMP_TAKEOFF_SPEED
 		self.double_jump = true
@@ -253,7 +253,7 @@ end
 
 local function fire(self)
 	self.velocity.x = self.velocity.x + RECOIL * -self.direction
-	
+
 	local pos = go.get_position()
 	-- offset the bullet so that it is fired "outside" of the player sprite
 	pos.x = pos.x + 8 * self.direction

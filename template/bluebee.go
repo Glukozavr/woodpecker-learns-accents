@@ -1,6 +1,6 @@
 components {
   id: "bluebee"
-  component: "/game/bluebee.script"
+  component: "/template/bluebee.script"
   position {
     x: 0.0
     y: 0.0

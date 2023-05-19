@@ -1,6 +1,6 @@
 components {
   id: "slime"
-  component: "/game/slime.script"
+  component: "/template/slime.script"
   position {
     x: 0.0
     y: 0.0
