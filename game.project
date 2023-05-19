@@ -4,7 +4,7 @@ developer = GKZR.me
 dependencies#0 = https://github.com/defold/lua-language-server/releases/download/v0.0.4/release.zip
 
 [bootstrap]
-main_collection = /template/game.collectionc
+main_collection = /game/game.collectionc
 
 [input]
 game_binding = /input/game.input_bindingc

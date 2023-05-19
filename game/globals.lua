@@ -5,6 +5,9 @@
 
 local M = {}
 
-
+M.constants = {
+	GRAVITY = -500,
+	NORMAL_THRESHOLD = 0.7
+}
 
 return M
