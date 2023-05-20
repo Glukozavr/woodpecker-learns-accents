@@ -1,4 +1,264 @@
 name: "game"
+instances {
+  id: "termite"
+  prototype: "/game/termite.go"
+  position {
+    x: 557.0
+    y: 48.0
+    z: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "tree"
+  prototype: "/game/tree.go"
+  position {
+    x: 0.0
+    y: 82.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "tree1"
+  prototype: "/game/tree.go"
+  position {
+    x: 108.0
+    y: 90.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.1
+    y: 1.1
+    z: 1.0
+  }
+}
+instances {
+  id: "tree2"
+  prototype: "/game/tree.go"
+  position {
+    x: 242.0
+    y: 66.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: -0.8
+    y: 0.8
+    z: 1.0
+  }
+}
+instances {
+  id: "tree3"
+  prototype: "/game/tree.go"
+  position {
+    x: 353.0
+    y: 82.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "tree4"
+  prototype: "/game/tree.go"
+  position {
+    x: 490.0
+    y: 89.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.1
+    z: 1.0
+  }
+}
+instances {
+  id: "tree5"
+  prototype: "/game/tree.go"
+  position {
+    x: 602.0
+    y: 82.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: -1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "tree6"
+  prototype: "/game/tree.go"
+  position {
+    x: 722.0
+    y: 112.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "tree7"
+  prototype: "/game/tree.go"
+  position {
+    x: 827.0
+    y: 98.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 0.9
+    y: 0.8
+    z: 1.0
+  }
+}
+instances {
+  id: "tree8"
+  prototype: "/game/tree.go"
+  position {
+    x: 931.0
+    y: 112.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: -1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "tree9"
+  prototype: "/game/tree.go"
+  position {
+    x: 1054.0
+    y: 129.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.1
+    y: 1.2
+    z: 1.0
+  }
+}
+instances {
+  id: "tree10"
+  prototype: "/game/tree.go"
+  position {
+    x: 1211.0
+    y: 130.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: -1.1
+    y: 1.2
+    z: 1.0
+  }
+}
+instances {
+  id: "tree11"
+  prototype: "/game/tree.go"
+  position {
+    x: 1350.0
+    y: 112.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
 collection_instances {
   id: "player"
   collection: "/game/player.collection"
@@ -105,307 +365,19 @@ embedded_instances {
 }
 embedded_instances {
   id: "background"
-  data: "embedded_components {\n"
-  "  id: \"tree\"\n"
-  "  type: \"sprite\"\n"
-  "  data: \"tile_set: \\\"/assets/trees.tilesource\\\"\\n"
-  "default_animation: \\\"regular\\\"\\n"
-  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
-  "blend_mode: BLEND_MODE_ALPHA\\n"
-  "\"\n"
-  "  position {\n"
-  "    x: 0.0\n"
-  "    y: 82.0\n"
-  "    z: 0.0\n"
-  "  }\n"
-  "  rotation {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "    w: 1.0\n"
-  "  }\n"
-  "}\n"
-  "embedded_components {\n"
-  "  id: \"tree1\"\n"
-  "  type: \"sprite\"\n"
-  "  data: \"tile_set: \\\"/assets/trees.tilesource\\\"\\n"
-  "default_animation: \\\"regular\\\"\\n"
-  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
-  "blend_mode: BLEND_MODE_ALPHA\\n"
-  "\"\n"
-  "  position {\n"
-  "    x: 240.0\n"
-  "    y: 89.0\n"
-  "    z: 0.0\n"
-  "  }\n"
-  "  rotation {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "    w: 1.0\n"
-  "  }\n"
-  "  scale {\n"
-  "    x: 1.1\n"
-  "    y: 1.1\n"
-  "    z: 1.0\n"
-  "  }\n"
-  "}\n"
-  "embedded_components {\n"
-  "  id: \"tree2\"\n"
-  "  type: \"sprite\"\n"
-  "  data: \"tile_set: \\\"/assets/trees.tilesource\\\"\\n"
-  "default_animation: \\\"regular\\\"\\n"
-  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
-  "blend_mode: BLEND_MODE_ALPHA\\n"
-  "\"\n"
-  "  position {\n"
-  "    x: 108.0\n"
-  "    y: 65.0\n"
-  "    z: 0.0\n"
-  "  }\n"
-  "  rotation {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "    w: 1.0\n"
-  "  }\n"
-  "  scale {\n"
-  "    x: -0.8\n"
-  "    y: 0.8\n"
-  "    z: 1.0\n"
-  "  }\n"
-  "}\n"
-  "embedded_components {\n"
-  "  id: \"tree3\"\n"
-  "  type: \"sprite\"\n"
-  "  data: \"tile_set: \\\"/assets/trees.tilesource\\\"\\n"
-  "default_animation: \\\"regular\\\"\\n"
-  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
-  "blend_mode: BLEND_MODE_ALPHA\\n"
-  "\"\n"
-  "  position {\n"
-  "    x: 353.0\n"
-  "    y: 78.0\n"
-  "    z: 0.0\n"
-  "  }\n"
-  "  rotation {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "    w: 1.0\n"
-  "  }\n"
-  "}\n"
-  "embedded_components {\n"
-  "  id: \"tree4\"\n"
-  "  type: \"sprite\"\n"
-  "  data: \"tile_set: \\\"/assets/trees.tilesource\\\"\\n"
-  "default_animation: \\\"regular\\\"\\n"
-  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
-  "blend_mode: BLEND_MODE_ALPHA\\n"
-  "\"\n"
-  "  position {\n"
-  "    x: 490.0\n"
-  "    y: 85.0\n"
-  "    z: 0.0\n"
-  "  }\n"
-  "  rotation {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "    w: 1.0\n"
-  "  }\n"
-  "  scale {\n"
-  "    x: 1.0\n"
-  "    y: 1.1\n"
-  "    z: 1.0\n"
-  "  }\n"
-  "}\n"
-  "embedded_components {\n"
-  "  id: \"tree5\"\n"
-  "  type: \"sprite\"\n"
-  "  data: \"tile_set: \\\"/assets/trees.tilesource\\\"\\n"
-  "default_animation: \\\"regular\\\"\\n"
-  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
-  "blend_mode: BLEND_MODE_ALPHA\\n"
-  "\"\n"
-  "  position {\n"
-  "    x: 602.0\n"
-  "    y: 82.0\n"
-  "    z: 0.0\n"
-  "  }\n"
-  "  rotation {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "    w: 1.0\n"
-  "  }\n"
-  "  scale {\n"
-  "    x: -1.0\n"
-  "    y: 1.0\n"
-  "    z: 1.0\n"
-  "  }\n"
-  "}\n"
-  "embedded_components {\n"
-  "  id: \"tree6\"\n"
-  "  type: \"sprite\"\n"
-  "  data: \"tile_set: \\\"/assets/trees.tilesource\\\"\\n"
-  "default_animation: \\\"regular\\\"\\n"
-  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
-  "blend_mode: BLEND_MODE_ALPHA\\n"
-  "\"\n"
-  "  position {\n"
-  "    x: 720.0\n"
-  "    y: 111.0\n"
-  "    z: 0.0\n"
-  "  }\n"
-  "  rotation {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "    w: 1.0\n"
-  "  }\n"
-  "}\n"
-  "embedded_components {\n"
-  "  id: \"tree7\"\n"
-  "  type: \"sprite\"\n"
-  "  data: \"tile_set: \\\"/assets/trees.tilesource\\\"\\n"
-  "default_animation: \\\"regular\\\"\\n"
-  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
-  "blend_mode: BLEND_MODE_ALPHA\\n"
-  "\"\n"
-  "  position {\n"
-  "    x: 826.0\n"
-  "    y: 98.0\n"
-  "    z: 0.0\n"
-  "  }\n"
-  "  rotation {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "    w: 1.0\n"
-  "  }\n"
-  "  scale {\n"
-  "    x: 0.9\n"
-  "    y: 0.8\n"
-  "    z: 1.0\n"
-  "  }\n"
-  "}\n"
-  "embedded_components {\n"
-  "  id: \"tree8\"\n"
-  "  type: \"sprite\"\n"
-  "  data: \"tile_set: \\\"/assets/trees.tilesource\\\"\\n"
-  "default_animation: \\\"regular\\\"\\n"
-  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
-  "blend_mode: BLEND_MODE_ALPHA\\n"
-  "\"\n"
-  "  position {\n"
-  "    x: 0.0\n"
-  "    y: 82.0\n"
-  "    z: 0.0\n"
-  "  }\n"
-  "  rotation {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "    w: 1.0\n"
-  "  }\n"
-  "}\n"
-  "embedded_components {\n"
-  "  id: \"tree9\"\n"
-  "  type: \"sprite\"\n"
-  "  data: \"tile_set: \\\"/assets/trees.tilesource\\\"\\n"
-  "default_animation: \\\"regular\\\"\\n"
-  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
-  "blend_mode: BLEND_MODE_ALPHA\\n"
-  "\"\n"
-  "  position {\n"
-  "    x: 930.0\n"
-  "    y: 110.0\n"
-  "    z: 0.0\n"
-  "  }\n"
-  "  rotation {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "    w: 1.0\n"
-  "  }\n"
-  "  scale {\n"
-  "    x: -1.0\n"
-  "    y: 1.0\n"
-  "    z: 1.0\n"
-  "  }\n"
-  "}\n"
-  "embedded_components {\n"
-  "  id: \"tree10\"\n"
-  "  type: \"sprite\"\n"
-  "  data: \"tile_set: \\\"/assets/trees.tilesource\\\"\\n"
-  "default_animation: \\\"regular\\\"\\n"
-  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
-  "blend_mode: BLEND_MODE_ALPHA\\n"
-  "\"\n"
-  "  position {\n"
-  "    x: 1049.0\n"
-  "    y: 129.0\n"
-  "    z: 0.0\n"
-  "  }\n"
-  "  rotation {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "    w: 1.0\n"
-  "  }\n"
-  "  scale {\n"
-  "    x: 1.1\n"
-  "    y: 1.2\n"
-  "    z: 1.0\n"
-  "  }\n"
-  "}\n"
-  "embedded_components {\n"
-  "  id: \"tree11\"\n"
-  "  type: \"sprite\"\n"
-  "  data: \"tile_set: \\\"/assets/trees.tilesource\\\"\\n"
-  "default_animation: \\\"regular\\\"\\n"
-  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
-  "blend_mode: BLEND_MODE_ALPHA\\n"
-  "\"\n"
-  "  position {\n"
-  "    x: 1215.0\n"
-  "    y: 129.0\n"
-  "    z: 0.0\n"
-  "  }\n"
-  "  rotation {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "    w: 1.0\n"
-  "  }\n"
-  "  scale {\n"
-  "    x: -1.1\n"
-  "    y: 1.2\n"
-  "    z: 1.0\n"
-  "  }\n"
-  "}\n"
-  "embedded_components {\n"
-  "  id: \"tree12\"\n"
-  "  type: \"sprite\"\n"
-  "  data: \"tile_set: \\\"/assets/trees.tilesource\\\"\\n"
-  "default_animation: \\\"regular\\\"\\n"
-  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
-  "blend_mode: BLEND_MODE_ALPHA\\n"
-  "\"\n"
-  "  position {\n"
-  "    x: 1348.0\n"
-  "    y: 110.0\n"
-  "    z: 0.0\n"
-  "  }\n"
-  "  rotation {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "    w: 1.0\n"
-  "  }\n"
-  "}\n"
-  ""
+  children: "tree"
+  children: "tree1"
+  children: "tree10"
+  children: "tree11"
+  children: "tree2"
+  children: "tree3"
+  children: "tree4"
+  children: "tree5"
+  children: "tree6"
+  children: "tree7"
+  children: "tree8"
+  children: "tree9"
+  data: ""
   position {
     x: 64.0
     y: 30.0

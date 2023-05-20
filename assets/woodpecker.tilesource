@@ -16,6 +16,15 @@ animations {
   flip_vertical: 0
 }
 animations {
+  id: "damage"
+  start_tile: 15
+  end_tile: 15
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 30
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
   id: "die"
   start_tile: 14
   end_tile: 16

@@ -1,0 +1,36 @@
+
+go.property("ATTACK_DAMAGE", 1)
+go.property("ATTACK_FORCE", 500)
+go.property("DISTANCE", 300)
+go.property("ATTACK_FORCE", 500)
+
+local TRIGGER_RESPONSE = hash("trigger_response")
+
+local PLAYER = hash("player")
+
+local SEND_WAVE_COMMAND = hash("send_wave")
+local ENEMY_DAMAGE_COMMAND = hash("apply_damage")
+local ENEMY_PUSH_COMMAND = hash("apply_push")
+
+function init(self)
+	self.direction = 0
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == SEND_WAVE_COMMAND then
+		-- move the bullet 300 pixels and then delete it
+		self.direction = message.direction
+		local pos = go.get_position()
+		local to = pos.x + self.DISTANCE * self.direction
+		local duration = self.DISTANCE / 250
+		go.animate(".", "position.x", go.PLAYBACK_ONCE_FORWARD, to, go.EASING_LINEAR, duration, 0,
+		function()
+			go.delete(".")
+		end)
+	elseif message_id == TRIGGER_RESPONSE then
+		if message.other_group == PLAYER and message.enter then
+			msg.post(message.other_id, ENEMY_DAMAGE_COMMAND, { value = self.ATTACK_DAMAGE })
+			msg.post(message.other_id, ENEMY_PUSH_COMMAND, { value = self.ATTACK_FORCE * self.direction })
+		end
+	end
+end

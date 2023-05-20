@@ -66,6 +66,7 @@ embedded_instances {
   "mask: \\\"ground\\\"\\n"
   "mask: \\\"enemy\\\"\\n"
   "mask: \\\"respawn\\\"\\n"
+  "mask: \\\"wave\\\"\\n"
   "embedded_collision_shape {\\n"
   "  shapes {\\n"
   "    shape_type: TYPE_SPHERE\\n"

@@ -1,0 +1,217 @@
+-- Enemy logic
+
+-- Generally chopping trees, when sees enemy - attacks it with cry, if in close range - attacks.
+-- dies from attack from above by player. Can't jump.
+
+go.property("ATTACK_DAMAGE", 1)
+go.property("ATTACK_FORCE", 1000)
+go.property("ATTACK_DELAY", 0.1)
+go.property("CRY_DELAY", 0.5)
+
+-- pre-hashing ids improves performance
+local CONTACT_POINT_RESPONSE = hash("contact_point_response")
+local ANIMATION_DONE_RESPONSE = hash("animation_done")
+local TRIGGER_RESPONSE = hash("trigger_response")
+
+local GROUND = hash("ground")
+local RESPAWMN = hash("respawn")
+local PLAYER = hash("player")
+local TREE = hash("tree")
+local SPRITE = "#sprite"
+local WAVE_FACTORY = "#wavefactory"
+
+local SIGHT_ID = "#collisionsight"
+local CRY_ID = "#collisioncry"
+local FIGHT_ID = "#collisionfight"
+
+local ANIM_RUN = hash("run")
+local ANIM_IDLE = hash("idle")
+local ANIM_CRY = hash("cry")
+local ANIM_ATTACK = hash("attack")
+local ANIM_DIE = hash("die")
+
+-- Body commands and events
+local RUN_COMMAND = hash("body_run") -- with value > 0 or < 0
+local JUMP_COMMAND = hash("body_jump")
+local ABORT_JUMP_COMMAND = hash("body_abort_jump")
+local FALL_COMMAND = hash("body_fall")
+local SET_DIRECTION_COMMAND = hash("body_set_direction")
+local BODY_UPDATE = hash("body_update") -- with velocity, ground_contact, wall_contact
+local BODY_JUMPED = hash("body_jumped")
+local BODY_LANDED = hash("body_landed")
+local BODY_FALLING = hash("body_falling")
+-- Other commands and events
+local DAMAGE_COMMAND = hash("apply_damage")
+local PUSH_COMMAND = hash("apply_push")
+local SEND_WAVE_COMMAND = hash("send_wave")
+local DIE_COMMAND = hash("die")
+
+local function get_direction(target)
+	local pos = go.get_world_position()
+	local target_pos = go.get_world_position(target)
+	return (target_pos.x - pos.x)/math.abs(target_pos.x - pos.x)
+end
+
+local function animation_action(self, anim)
+	if anim == ANIM_ATTACK and self.target then
+		msg.post(self.target, DAMAGE_COMMAND, { value = self.DAMAGE })
+		msg.post(self.target, PUSH_COMMAND, { value = self.ATTACK_FORCE * get_direction(self.target) })
+	elseif anim == ANIM_CRY and self.target then
+		local pos = go.get_position()
+		-- offset the wave so that it is fired "outside" of the enemy sprite
+		local direction = get_direction(self.target)
+		pos.x = pos.x + 8 * direction
+		local id = factory.create(WAVE_FACTORY, pos)
+
+		-- flip the wave sprite
+		sprite.set_hflip(msg.url(nil, id, "sprite"), direction == 1)
+
+		msg.post(id, SEND_WAVE_COMMAND, {
+			direction = direction
+		})
+	end
+end
+
+local function play_animation(self, anim)
+	-- only play animations which are not already playing
+	if self.anim ~= anim and not self.busy then
+		-- tell the sprite to play the animation
+		sprite.play_flipbook(SPRITE, anim)
+		-- remember which animation is playing
+		self.anim = anim
+		animation_action(self, anim)
+	end
+end
+
+local function update_animations(self, body)
+	if self.dead then
+		return
+	end
+	-- make sure the player character faces the right way
+	sprite.set_hflip(SPRITE, body.direction == -1)
+
+	if self.busy then
+		return
+	end
+	-- make sure the right animation is playing
+	if body.ground_contact then
+		if body.velocity.x == 0 then
+			play_animation(self, ANIM_IDLE)
+		else
+			play_animation(self, ANIM_RUN)
+		end
+	end
+end
+
+function init(self)
+	-- animation is perfrmed outside physics control
+	self.busy = false
+	-- the currently playing animation
+	self.anim = nil
+	-- If target in sight - focus on target, otherwise look for the trees
+	self.target = nil
+	-- If no target in sight and tree in sight - attack tree
+	self.tree = nil
+	self.dead = false
+	self.ranges = {
+		sight = false,
+		cry = false,
+		attack = false,
+	}
+	play_animation(self, ANIM_IDLE)
+end
+
+local function follow(self, target)
+	msg.post(".", RUN_COMMAND, { value = get_direction(target) })
+end
+
+local function cry(self, target)
+	msg.post(".", SET_DIRECTION_COMMAND, { value = get_direction(target) })
+	msg.post(".", RUN_COMMAND, { value = 0 })
+	play_animation(self, ANIM_CRY)
+end
+
+local function attack(self, target)
+	msg.post(".", RUN_COMMAND, { value = 0 })
+	msg.post(".", SET_DIRECTION_COMMAND, { value = get_direction(target) })
+	play_animation(self, ANIM_ATTACK)
+end
+
+local function act(self)
+	if self.dead then
+		return
+	end
+	if self.target then
+		if self.ranges.attack then
+			attack(self, self.target)
+			self.busy = true
+		elseif self.ranges.cry then
+			cry(self, self.target)
+			self.busy = true
+		elseif self.ranges.sight then
+			self.busy = false
+			follow(self, self.target)
+		end
+	elseif self.tree then
+		self.busy = false
+		-- Go attack the tree
+		play_animation(self, ANIM_IDLE)
+	else
+		self.busy = false
+		-- Go somewhere till you find a tree
+		play_animation(self, ANIM_IDLE)
+	end
+end
+
+local function define_range(self, sender, enter)
+	if sender == msg.url(SIGHT_ID) then
+		self.ranges.sight = enter
+	elseif sender == msg.url(CRY_ID) then
+		self.ranges.cry = enter
+	elseif sender == msg.url(FIGHT_ID) then
+		self.ranges.attack = enter
+	end
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == TRIGGER_RESPONSE then
+		if message.other_group == PLAYER then
+			define_range(self, sender, message.enter)
+			if message.enter then
+				self.target = message.other_id
+			elseif sender == msg.url(SIGHT_ID) then 
+				self.target = nil
+			end
+		elseif message.other_group == TREE then
+			if message.enter and self.tree == nil then
+				self.tree = message.other_id
+			elseif not message.enter and message.other_id == self.tree then
+				self.tree = nil
+			end
+		end
+	elseif message_id == BODY_UPDATE then
+		update_animations(self, message)
+	elseif message_id == ANIMATION_DONE_RESPONSE then
+		if message.id == ANIM_ATTACK or message.id == ANIM_CRY then
+			local delay = 0
+			if message.id == ANIM_ATTACK then
+				delay = self.ATTACK_DELAY
+			elseif message.id == ANIM_CRY then
+				delay = self.CRY_DELAY
+			end
+			timer.delay(delay, false, function()
+				self.anim = nil
+				self.busy = false
+			end)
+		end
+	elseif message_id == DIE_COMMAND then
+		play_animation(self, ANIM_DIE)
+		self.busy = false
+		self.dead = true
+	end
+end
+
+function update(self, dt)
+	act(self)
+end
+	
