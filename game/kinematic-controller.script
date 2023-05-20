@@ -10,7 +10,13 @@ go.property("MAX_AIR_SPEED", 80)
 go.property("MAX_FALL_SPEED", 500)
 
 -- take-off speed when jumping in pixel units
-go.property("JUMP_TAKEOFF_SPEED", 500)
+go.property("JUMP_TAKEOFF_SPEED", 200)
+-- take-off speed when jumping in pixel units
+go.property("PLANNER", false)
+-- plannering gravity
+go.property("PLANNERING_GRAVITY", -50)
+-- fall force
+go.property("FALL_FORCE", -250)
 
 -- pre-hashing ids improves performance
 local CONTACT_POINT_RESPONSE = hash("contact_point_response")
@@ -24,6 +30,16 @@ local JUMP = hash("jump")
 
 local SPRITE = "visuals#sprite"
 
+-- commands
+local RUN_COMMAND = hash("body_run") -- with value > 0 or < 0
+local JUMP_COMMAND = hash("body_jump")
+local ABORT_JUMP_COMMAND = hash("body_abort_jump")
+local FALL_COMMAND = hash("body_fall")
+-- events
+local BODY_UPDATE = hash("body_update") -- with velocity, direction, ground_contact, wall_contact
+local BODY_JUMPED = hash("body_jumped")
+local BODY_LANDED = hash("body_landed")
+local BODY_FALLING = hash("body_falling")
 
 function init(self)
 	-- player velocity
@@ -37,11 +53,10 @@ function init(self)
 	-- also track state of last frame
 	-- (to detect when landing or taking off)
 	self.previous_ground_contact = true
-end
-
-local function squish()
-	go.animate("visuals", "scale.x", go.PLAYBACK_ONCE_PINGPONG, 0.8, go.EASING_INOUTQUAD, 0.6)
-	go.animate("visuals", "scale.y", go.PLAYBACK_ONCE_PINGPONG, 1.2, go.EASING_INOUTQUAD, 0.6)
+	-- set default plannering to false
+	self.plannering = false
+	-- set default falling to false, if falling - can't move to sides before ground_contact
+	self.falling = false
 end
 
 -- clamp a number between a min and max value
@@ -64,8 +79,13 @@ local function decelerate(v, f, dt)
 end
 
 function fixed_update(self, dt)
+	-- if a planner, than it should ease the gravity when flying
+	local down_force = globals.constants.GRAVITY
+	if self.PLANNER and self.plannering and self.velocity.y < 0 then
+		down_force = self.PLANNERING_GRAVITY
+	end
 	-- apply gravity
-	self.velocity.y = self.velocity.y + globals.constants.GRAVITY * dt
+	self.velocity.y = self.velocity.y + down_force * dt
 	self.velocity.y = clamp(self.velocity.y, -self.MAX_FALL_SPEED, self.MAX_FALL_SPEED)
 
 	-- apply ground or air friction
@@ -83,7 +103,12 @@ function fixed_update(self, dt)
 	go.set_position(pos)
 
 	-- update animations based on state (ground, air, move and idle)
-	-- update_animations(self)
+	msg.post(".", BODY_UPDATE, {
+		velocity = self.velocity,
+		ground_contact = self.ground_contact,
+		wall_contact = self.wall_contact,
+		direction = self.direction,
+	})
 
 	-- reset volatile state
 	self.previous_ground_contact = self.ground_contact
@@ -132,8 +157,7 @@ local function handle_obstacle_contact(self, normal, distance)
 		if not self.previous_ground_contact then
 			-- add some particles 
 			--particlefx.play("#dust")
-			-- reset any "squish" that may have been applied
-			go.set("visuals", "scale", 1)
+			msg.post(".", BODY_LANDED)
 		end
 		self.ground_contact = true
 		self.velocity.y = 0
@@ -145,29 +169,19 @@ local function handle_obstacle_contact(self, normal, distance)
 	end
 end
 
-function on_message(self, message_id, message, sender)
-	-- check if we received a contact point message
-	if message_id == CONTACT_POINT_RESPONSE then
-		-- check that the object is something we consider an obstacle
-		if message.group == GROUND then
-			handle_obstacle_contact(self, message.normal, message.distance)
-		elseif message.group == RESPAWMN or message.group == ENEMY then
-			-- go.set_position(self.spawn_position)
-		end
-	end
-end
-
 local function jump(self)
 	-- only allow jump from ground
 	-- (extend this with a counter to do things like double-jumps)
 	if self.ground_contact then
+		-- set plannering if a PLANNER
+		if self.PLANNER then
+			self.plannering = true
+		end
 		-- set take-off speed
 		self.velocity.y = self.JUMP_TAKEOFF_SPEED
 		-- play animation
-		--play_animation(self, ANIM_JUMP)
+		msg.post(".", BODY_JUMPED)
 		self.ground_contact = false
-		-- compress and stretch player for visual "juice"
-		squish()
 		-- allow double jump if still moving up
 	end
 	-- add some particles 
@@ -175,6 +189,10 @@ local function jump(self)
 end
 
 local function abort_jump(self)
+	-- cut off plannering if a PLANNER
+	if self.PLANNER then
+		self.plannering = false
+	end
 	-- cut the jump short if we are still going up
 	if self.velocity.y > 0 then
 		-- scale down the upwards speed
@@ -182,7 +200,26 @@ local function abort_jump(self)
 	end
 end
 
-local function walk(self, direction)
+local function fall(self)
+	-- cut the jump short if we are still going up
+	if not self.ground_contact and not self.falling then
+		-- cut off plannering if a PLANNER
+		if self.PLANNER then
+			self.plannering = false
+		end
+
+		msg.post(".", BODY_FALLING)
+		self.falling = true
+		-- scale down the upwards speed
+		self.velocity.x = 0
+		self.velocity.y = self.FALL_FORCE
+	end
+end
+
+local function run(self, direction)
+	if self.falling then
+		return
+	end
 	if direction ~= 0 then
 		self.direction = direction
 	end
@@ -191,5 +228,26 @@ local function walk(self, direction)
 	else
 		-- move slower in the air
 		self.velocity.x = self.MAX_AIR_SPEED * direction
+	end
+end
+
+function on_message(self, message_id, message, sender)
+	-- check if we received a contact point message
+	if message_id == CONTACT_POINT_RESPONSE then
+		-- check that the object is something we consider an obstacle
+		if message.group == GROUND then
+			self.falling = false
+			handle_obstacle_contact(self, message.normal, message.distance)
+		elseif message.group == RESPAWMN or message.group == ENEMY then
+			-- go.set_position(self.spawn_position)
+		end
+	elseif message_id == RUN_COMMAND then
+		run(self, message.value)
+	elseif message_id == JUMP_COMMAND then
+		jump(self)
+	elseif message_id == ABORT_JUMP_COMMAND then
+		abort_jump(self)
+	elseif message_id == FALL_COMMAND then
+		fall(self)
 	end
 end

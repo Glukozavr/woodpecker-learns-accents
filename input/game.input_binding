@@ -11,8 +11,8 @@ key_trigger {
   action: "jump"
 }
 key_trigger {
-  input: KEY_X
-  action: "fire"
+  input: KEY_Z
+  action: "attack"
 }
 gamepad_trigger {
   input: GAMEPAD_LSTICK_LEFT
