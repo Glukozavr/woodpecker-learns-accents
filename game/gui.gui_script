@@ -1,0 +1,92 @@
+local REDUCE_HEALTH = hash("reduce_health") -- expects value
+local LEVEL = hash("/level")
+
+local FULL_HEART_TEXTURE = hash("full")
+local EMPTY_HEART_TEXTURE = hash("empty")
+
+local RESPAWN_CALL_COMMAND = hash("respawn_call") -- a signal to start respawn
+local RESPAWN_COMMAND = hash("respawn") -- a command to unit to respawn
+local REPORT_IN_COMMAND = hash("report_in") -- a command to register as unit
+local SET_TERMITES_COUNT_COMMAND = hash("set_termites_count") -- a command to register as unit
+local RESTORE_HEALTH = hash("restore_health")
+local SHOW_GAME_END = hash("show_game_end")
+
+local function update_health(self, hp)
+	local max_hp = table.getn(self.hp_textures)
+	if hp < 0 then
+		hp = 0
+	elseif hp > max_hp then
+		hp = max_hp
+	end
+
+	for i = 1, max_hp do
+		if i > hp then
+			gui.play_flipbook(self.hp_textures[i], EMPTY_HEART_TEXTURE)
+		else
+			gui.play_flipbook(self.hp_textures[i], FULL_HEART_TEXTURE)
+		end
+	end
+	self.hp = hp
+	if self.hp == 0 then
+		msg.post(LEVEL, RESPAWN_CALL_COMMAND)
+	end
+end
+
+function init(self)
+	self.hp_textures = {
+		gui.get_node("hp1"),
+		gui.get_node("hp2"),
+		gui.get_node("hp3"),
+		gui.get_node("hp4"),
+		gui.get_node("hp5")
+	}
+	self.hp = table.getn(self.hp_textures)
+	self.game_end_screen = gui.get_node("End_Screen")
+	self.game_start_screen = gui.get_node("Start_Screen")
+	msg.post(".", "acquire_input_focus")
+
+	update_health(self, table.getn(self.hp_textures))
+	msg.post(LEVEL, REPORT_IN_COMMAND)
+end
+
+local function set_termites_count(self, termites_count)
+	local text_node = gui.get_node("termites_count")
+	gui.set_text(text_node, termites_count)
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == REDUCE_HEALTH then
+		update_health(self, self.hp - message.value)
+	elseif message_id == RESTORE_HEALTH then
+		update_health(self, self.hp + message.value)
+	elseif message_id == RESPAWN_COMMAND then
+		update_health(self, table.getn(self.hp_textures))
+	elseif message_id == SET_TERMITES_COUNT_COMMAND then
+		set_termites_count(self, message.value)
+		if message.value == 0 then
+			gui.set_enabled(self.game_end_screen, true)
+		end
+	end
+end
+
+function on_input(self, action_id, action)
+	if action_id == hash("attack") and action.pressed then
+		if gui.is_enabled(self.game_start_screen, false) then
+			gui.set_enabled(self.game_start_screen, false)
+		elseif gui.is_enabled(self.game_end_screen, false) then
+			gui.set_enabled(self.game_end_screen, false)
+			gui.set_enabled(self.game_start_screen, true)
+			msg.post(LEVEL, RESPAWN_CALL_COMMAND)
+		end
+	elseif action_id == hash("touch") and action.pressed then
+		local start_button = gui.get_node("Start_Button")
+		local repeat_button = gui.get_node("Repeat_Button")
+		if gui.pick_node(start_button, action.x, action.y) then
+			gui.set_enabled(self.game_start_screen, false)
+		elseif gui.pick_node(repeat_button, action.x, action.y) then
+			gui.set_enabled(self.game_end_screen, false)
+			gui.set_enabled(self.game_start_screen, true)
+			msg.post(LEVEL, RESPAWN_CALL_COMMAND)
+		end
+	end
+end

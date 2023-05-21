@@ -1,6 +1,48 @@
 local BACKGROUND_COLOR = vmath.vector4(73/255, 163/255, 205/255, 180/255)
 
+local RESPAWN_CALL_COMMAND = hash("respawn_call") -- a signal to start respawn
+local RESPAWN_COMMAND = hash("respawn") -- a command to unit to respawn
+local REPORT_IN_COMMAND = hash("report_in") -- a command to register as unit
+local REPORT_OUT_COMMAND = hash("report_out") -- a command to unregister as unit
+local REPORT_IN_TERMITE_COMMAND = hash("report_in_termite")
+local REPORT_OUT_TERMITE_COMMAND = hash("report_out_termite")
+local SET_TERMITES_COUNT_COMMAND = hash("set_termites_count") -- a command to register as unit
+
+local GUI = "/gui"
+
 function init(self)
-	msg.post("@render:", "use_fixed_projection", { zoom = 3, near = -10, far = 10 })
+	msg.post("@render:", "use_fixed_projection", { zoom = 2, near = -10, far = 10 })
 	msg.post("@render:", "clear_color", { color = BACKGROUND_COLOR })
+
+	self.units = {}
+	self.termites = {}
+	sound.play("#music")
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == RESPAWN_CALL_COMMAND then
+		for i=1, table.getn(self.units) do
+			msg.post(self.units[i], RESPAWN_COMMAND)
+		end
+	elseif message_id == REPORT_IN_COMMAND then
+		table.insert(self.units, sender)
+	elseif message_id == REPORT_OUT_COMMAND then
+		for i=1, table.getn(self.units) do
+			if self.units[i] == sender then
+				table.remove(self.units, i)
+				break
+			end
+		end
+	elseif message_id == REPORT_IN_TERMITE_COMMAND then
+		table.insert(self.termites, sender)
+		msg.post(GUI, SET_TERMITES_COUNT_COMMAND, { value = table.getn(self.termites) })
+	elseif message_id == REPORT_OUT_TERMITE_COMMAND then
+		for i=1, table.getn(self.termites) do
+			if self.termites[i] == sender then
+				table.remove(self.termites, i)
+				break
+			end
+		end
+		msg.post(GUI, SET_TERMITES_COUNT_COMMAND, { value = table.getn(self.termites) })
+	end
 end

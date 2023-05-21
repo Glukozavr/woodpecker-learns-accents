@@ -47,6 +47,8 @@ shared_state = 1
 gravity_y = -1000.0
 scale = 0.1
 use_fixed_timestep = 1
+max_collision_object_count = 512
+max_collisions = 256
 
 [graphics]
 default_texture_min_filter = nearest
@@ -54,4 +56,7 @@ default_texture_mag_filter = nearest
 
 [sprite]
 max_count = 500
+
+[sound]
+max_component_count = 128
 

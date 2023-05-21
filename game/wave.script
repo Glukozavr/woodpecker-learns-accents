@@ -2,18 +2,33 @@
 go.property("ATTACK_DAMAGE", 1)
 go.property("ATTACK_FORCE", 500)
 go.property("DISTANCE", 300)
-go.property("ATTACK_FORCE", 500)
+go.property("ATTACK_DELAY", 0.5)
 
 local TRIGGER_RESPONSE = hash("trigger_response")
 
 local PLAYER = hash("player")
+local LEVEL = hash("/level")
+
+local effect_collision = "#effectcollisionobject"
 
 local SEND_WAVE_COMMAND = hash("send_wave")
 local ENEMY_DAMAGE_COMMAND = hash("apply_damage")
 local ENEMY_PUSH_COMMAND = hash("apply_push")
+local RESPAWN_COMMAND = hash("respawn") -- a command to unit to respawn
+local REPORT_IN_COMMAND = hash("report_in") -- a command to register as unit
+local REPORT_OUT_COMMAND = hash("report_out") -- a command to unregister as unit
+local REDUCE_SPEED = hash("reduce_speed") -- expects value true or false
 
 function init(self)
 	self.direction = 0
+	self.delayed = false
+
+	msg.post(LEVEL, REPORT_IN_COMMAND)
+end
+
+local function dissapear(self)
+	msg.post(LEVEL, REPORT_OUT_COMMAND)
+	go.delete(".")
 end
 
 function on_message(self, message_id, message, sender)
@@ -25,12 +40,22 @@ function on_message(self, message_id, message, sender)
 		local duration = self.DISTANCE / 250
 		go.animate(".", "position.x", go.PLAYBACK_ONCE_FORWARD, to, go.EASING_LINEAR, duration, 0,
 		function()
-			go.delete(".")
+			dissapear(self)
 		end)
 	elseif message_id == TRIGGER_RESPONSE then
-		if message.other_group == PLAYER and message.enter then
-			msg.post(message.other_id, ENEMY_DAMAGE_COMMAND, { value = self.ATTACK_DAMAGE })
-			msg.post(message.other_id, ENEMY_PUSH_COMMAND, { value = self.ATTACK_FORCE * self.direction })
+		if sender == msg.url(effect_collision) and message.other_group == PLAYER then
+			msg.post(message.other_id, REDUCE_SPEED, { value = message.enter})
+		else
+			if message.other_group == PLAYER and message.enter and not self.delayed then
+				self.delayed = true
+				msg.post(message.other_id, ENEMY_DAMAGE_COMMAND, { value = self.ATTACK_DAMAGE })
+				msg.post(message.other_id, ENEMY_PUSH_COMMAND, { value = self.ATTACK_FORCE * self.direction })
+				timer.delay(self.ATTACK_DELAY, false, function()
+					self.delayed = false
+				end)
+			end
 		end
+	elseif message_id == RESPAWN_COMMAND then
+		dissapear(self)
 	end
 end

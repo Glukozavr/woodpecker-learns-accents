@@ -28,6 +28,66 @@ components {
     w: 1.0
   }
 }
+components {
+  id: "scrap"
+  component: "/game/scrap.particlefx"
+  position {
+    x: 8.0
+    y: 0.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+}
+components {
+  id: "bite"
+  component: "/assets/sounds/bite.sound"
+  position {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+}
+components {
+  id: "enemy_death"
+  component: "/assets/sounds/enemy_death.sound"
+  position {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+}
+components {
+  id: "wave"
+  component: "/assets/sounds/wave.sound"
+  position {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+}
 embedded_components {
   id: "sprite"
   type: "sprite"
@@ -64,7 +124,7 @@ embedded_components {
   "group: \"enemy\"\n"
   "mask: \"ground\"\n"
   "mask: \"player\"\n"
-  "mask: \"respawn\"\n"
+  "mask: \"tree\"\n"
   "embedded_collision_shape {\n"
   "  shapes {\n"
   "    shape_type: TYPE_SPHERE\n"

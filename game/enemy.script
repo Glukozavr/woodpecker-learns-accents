@@ -6,7 +6,13 @@
 go.property("ATTACK_DAMAGE", 1)
 go.property("ATTACK_FORCE", 1000)
 go.property("ATTACK_DELAY", 0.1)
-go.property("CRY_DELAY", 0.5)
+go.property("CRY_ACCENT", 1)
+
+local CRY_ACCENTS = {
+	{ 0.5 },
+	{ 0, 0, 0, 0.5 },
+	{ 0, 0, 0, 0.3, 0, 0.5 },
+}
 
 -- pre-hashing ids improves performance
 local CONTACT_POINT_RESPONSE = hash("contact_point_response")
@@ -19,6 +25,7 @@ local PLAYER = hash("player")
 local TREE = hash("tree")
 local SPRITE = "#sprite"
 local WAVE_FACTORY = "#wavefactory"
+local LEVEL = "/level"
 
 local SIGHT_ID = "#collisionsight"
 local CRY_ID = "#collisioncry"
@@ -45,6 +52,10 @@ local DAMAGE_COMMAND = hash("apply_damage")
 local PUSH_COMMAND = hash("apply_push")
 local SEND_WAVE_COMMAND = hash("send_wave")
 local DIE_COMMAND = hash("die")
+local RESPAWN_COMMAND = hash("respawn") -- a command to unit to respawn
+local REPORT_IN_COMMAND = hash("report_in") -- a command to register as unit
+local REPORT_IN_TERMITE_COMMAND = hash("report_in_termite")
+local REPORT_OUT_TERMITE_COMMAND = hash("report_out_termite")
 
 local function get_direction(target)
 	local pos = go.get_world_position()
@@ -52,14 +63,30 @@ local function get_direction(target)
 	return (target_pos.x - pos.x)/math.abs(target_pos.x - pos.x)
 end
 
-local function animation_action(self, anim)
-	if anim == ANIM_ATTACK and self.target then
-		msg.post(self.target, DAMAGE_COMMAND, { value = self.DAMAGE })
-		msg.post(self.target, PUSH_COMMAND, { value = self.ATTACK_FORCE * get_direction(self.target) })
-	elseif anim == ANIM_CRY and self.target then
+local function play_sound(self, sound_comp)
+	-- only play animations which are not already playing
+	if self.sound ~= sound_comp then
+		-- tell the sprite to play the animation
+		self.sound_id = sound.play(sound_comp, nil, function(self, message_id, message, sender)
+			if message.play_id == self.sound_id then
+				self.sound = nil
+				self.sound_id = nil
+			end
+		end)
+		-- remember which animation is playing
+		self.sound = sound_comp
+	end
+end
+
+local function animation_action(self, anim, target)
+	if anim == ANIM_ATTACK and target then
+		msg.post(target, DAMAGE_COMMAND, { value = self.ATTACK_DAMAGE })
+		msg.post(target, PUSH_COMMAND, { value = self.ATTACK_FORCE * get_direction(self.target) })
+	elseif anim == ANIM_CRY and target then
+		play_sound(self, "#wave")
 		local pos = go.get_position()
 		-- offset the wave so that it is fired "outside" of the enemy sprite
-		local direction = get_direction(self.target)
+		local direction = get_direction(target)
 		pos.x = pos.x + 8 * direction
 		local id = factory.create(WAVE_FACTORY, pos)
 
@@ -72,14 +99,17 @@ local function animation_action(self, anim)
 	end
 end
 
-local function play_animation(self, anim)
+local function play_animation(self, anim, target)
 	-- only play animations which are not already playing
 	if self.anim ~= anim and not self.busy then
 		-- tell the sprite to play the animation
 		sprite.play_flipbook(SPRITE, anim)
 		-- remember which animation is playing
 		self.anim = anim
-		animation_action(self, anim)
+		animation_action(self, anim, target)
+		return true
+	else
+		return false
 	end
 end
 
@@ -103,7 +133,7 @@ local function update_animations(self, body)
 	end
 end
 
-function init(self)
+local function respawn(self)
 	-- animation is perfrmed outside physics control
 	self.busy = false
 	-- the currently playing animation
@@ -111,14 +141,43 @@ function init(self)
 	-- If target in sight - focus on target, otherwise look for the trees
 	self.target = nil
 	-- If no target in sight and tree in sight - attack tree
-	self.tree = nil
+	self.trees = {}
+	if self.dead then
+		self.dead = false
+		msg.post(LEVEL, REPORT_IN_TERMITE_COMMAND)
+	end
+	self.ranges = {
+		sight = false,
+		cry = false,
+		attack = false,
+	}
+	self.cry_index = 1
+	go.set_position(self.spawn_position)
+	play_animation(self, ANIM_IDLE)
+end
+
+function init(self)
+	-- spawn position
+	self.spawn_position = go.get_position()
+	-- animation is perfrmed outside physics control
+	self.busy = false
+	-- the currently playing animation
+	self.anim = nil
+	-- If target in sight - focus on target, otherwise look for the trees
+	self.target = nil
+	-- If no target in sight and tree in sight - attack tree
+	self.trees = {}
 	self.dead = false
 	self.ranges = {
 		sight = false,
 		cry = false,
 		attack = false,
 	}
+	self.cry_index = 1
+	self.cry_sequence = CRY_ACCENTS[self.CRY_ACCENT]
 	play_animation(self, ANIM_IDLE)
+	msg.post(LEVEL, REPORT_IN_COMMAND)
+	msg.post(LEVEL, REPORT_IN_TERMITE_COMMAND)
 end
 
 local function follow(self, target)
@@ -128,13 +187,13 @@ end
 local function cry(self, target)
 	msg.post(".", SET_DIRECTION_COMMAND, { value = get_direction(target) })
 	msg.post(".", RUN_COMMAND, { value = 0 })
-	play_animation(self, ANIM_CRY)
+	play_animation(self, ANIM_CRY, target)
 end
 
 local function attack(self, target)
 	msg.post(".", RUN_COMMAND, { value = 0 })
 	msg.post(".", SET_DIRECTION_COMMAND, { value = get_direction(target) })
-	play_animation(self, ANIM_ATTACK)
+	return play_animation(self, ANIM_ATTACK, target)
 end
 
 local function act(self)
@@ -143,23 +202,42 @@ local function act(self)
 	end
 	if self.target then
 		if self.ranges.attack then
-			attack(self, self.target)
+			if attack(self, self.target) then
+				play_sound(self, "#bite")
+			end
 			self.busy = true
 		elseif self.ranges.cry then
 			cry(self, self.target)
 			self.busy = true
 		elseif self.ranges.sight then
-			self.busy = false
 			follow(self, self.target)
 		end
-	elseif self.tree then
+	elseif table.getn(self.trees) > 0 then
 		self.busy = false
 		-- Go attack the tree
-		play_animation(self, ANIM_IDLE)
+		local pos = go.get_world_position()
+		local tree
+		local distance = 1000
+		for i=1,table.getn(self.trees) do
+			local tree_pos = go.get_world_position(self.trees[i])
+			local dist = math.abs(tree_pos.x - pos.x)
+			if dist < distance then
+				distance = dist
+				tree = self.trees[i]
+			end
+		end
+		if  distance < 5 then
+			if attack(self, tree) then
+				particlefx.play("#scrap")
+			end
+			self.busy = true
+		else
+			msg.post(".", RUN_COMMAND, { value = get_direction(tree) })
+		end
 	else
 		self.busy = false
 		-- Go somewhere till you find a tree
-		play_animation(self, ANIM_IDLE)
+		msg.post(".", RUN_COMMAND, { value = 1 })
 	end
 end
 
@@ -183,10 +261,15 @@ function on_message(self, message_id, message, sender)
 				self.target = nil
 			end
 		elseif message.other_group == TREE then
-			if message.enter and self.tree == nil then
-				self.tree = message.other_id
-			elseif not message.enter and message.other_id == self.tree then
-				self.tree = nil
+			if message.enter then
+				table.insert(self.trees, message.other_id)
+			else
+				for i=1,table.getn(self.trees) do
+					if self.trees[i] == message.other_id then
+						table.remove(self.trees, i)
+						break
+					end
+				end
 			end
 		end
 	elseif message_id == BODY_UPDATE then
@@ -197,7 +280,13 @@ function on_message(self, message_id, message, sender)
 			if message.id == ANIM_ATTACK then
 				delay = self.ATTACK_DELAY
 			elseif message.id == ANIM_CRY then
-				delay = self.CRY_DELAY
+				delay = self.cry_sequence[self.cry_index]
+
+				local max_index = table.getn(self.cry_sequence)
+				self.cry_index = self.cry_index + 1
+				if self.cry_index > max_index then
+					self.cry_index = 1
+				end
 			end
 			timer.delay(delay, false, function()
 				self.anim = nil
@@ -206,8 +295,12 @@ function on_message(self, message_id, message, sender)
 		end
 	elseif message_id == DIE_COMMAND then
 		play_animation(self, ANIM_DIE)
+		play_sound(self, "#enemy_death")
+		msg.post(LEVEL, REPORT_OUT_TERMITE_COMMAND)
 		self.busy = false
 		self.dead = true
+	elseif message_id == RESPAWN_COMMAND then
+		respawn(self)
 	end
 end
 

@@ -3,6 +3,7 @@
 local globals = require "game.globals"
 
 -- these are the tweaks for the mechanics, feel free to change them for a different feeling
+go.property("PARTICLES", false)
 -- max speed right/left
 go.property("MAX_GROUND_SPEED", 100)
 go.property("MAX_AIR_SPEED", 80)
@@ -17,6 +18,8 @@ go.property("PLANNER", false)
 go.property("PLANNERING_GRAVITY", -50)
 -- fall force
 go.property("FALL_FORCE", -250)
+-- fall force
+go.property("SPEED_DEBUFF", 50)
 
 -- pre-hashing ids improves performance
 local CONTACT_POINT_RESPONSE = hash("contact_point_response")
@@ -37,6 +40,7 @@ local ABORT_JUMP_COMMAND = hash("body_abort_jump")
 local FALL_COMMAND = hash("body_fall")
 local SET_DIRECTION_COMMAND = hash("body_set_direction")
 local PUSH_COMMAND = hash("body_push")
+local SPEED_DEBUFF_COMMAND = hash("body_speed_debugg") -- expects value true or false
 -- events
 local BODY_UPDATE = hash("body_update") -- with velocity, direction, ground_contact, wall_contact
 local BODY_JUMPED = hash("body_jumped")
@@ -62,6 +66,7 @@ function init(self)
 	self.falling = false
 	-- set default falling to false, if falling - can't move to sides before ground_contact
 	self.being_push = false
+	self.speed_debuff = 0
 end
 
 -- clamp a number between a min and max value
@@ -106,7 +111,8 @@ function fixed_update(self, dt)
 			self.velocity.x = clamp(self.velocity.x, -self.MAX_GROUND_SPEED, self.MAX_GROUND_SPEED)
 		else
 			self.velocity.x = decelerate(self.velocity.x, 1, dt)
-			self.velocity.x = clamp(self.velocity.x, -self.MAX_AIR_SPEED, self.MAX_AIR_SPEED)
+			local max_speed = self.MAX_AIR_SPEED - self.speed_debuff
+			self.velocity.x = clamp(self.velocity.x, -max_speed, max_speed)
 		end
 	end
 
@@ -114,7 +120,7 @@ function fixed_update(self, dt)
 	local pos = go.get_position()
 	pos = pos + self.velocity * dt
 	go.set_position(pos)
-
+	
 	-- update animations based on state (ground, air, move and idle)
 	msg.post(".", BODY_UPDATE, {
 		velocity = self.velocity,
@@ -169,7 +175,9 @@ local function handle_obstacle_contact(self, normal, distance)
 	if normal.y > globals.constants.NORMAL_THRESHOLD then
 		if not self.previous_ground_contact then
 			-- add some particles 
-			--particlefx.play("#dust")
+			if self.PARTICLES then
+				particlefx.play("#dust")
+			end
 			msg.post(".", BODY_LANDED)
 		end
 		self.ground_contact = true
@@ -198,7 +206,9 @@ local function jump(self)
 		-- allow double jump if still moving up
 	end
 	-- add some particles 
-	--particlefx.play("#jump")
+	if self.PARTICLES then
+		particlefx.play("#jump")
+	end
 end
 
 local function abort_jump(self)
@@ -273,6 +283,13 @@ function on_message(self, message_id, message, sender)
 				self.plannering = false
 			end
 			self.velocity.x = message.value
+		end
+	end
+	if message_id == SPEED_DEBUFF_COMMAND then
+		if message.value then
+			self.speed_debuff = self.SPEED_DEBUFF
+		else
+			self.speed_debuff = 0
 		end
 	end
 end

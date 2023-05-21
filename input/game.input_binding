@@ -14,6 +14,10 @@ key_trigger {
   input: KEY_Z
   action: "attack"
 }
+mouse_trigger {
+  input: MOUSE_BUTTON_1
+  action: "touch"
+}
 gamepad_trigger {
   input: GAMEPAD_LSTICK_LEFT
   action: "left"
@@ -37,4 +41,8 @@ gamepad_trigger {
 gamepad_trigger {
   input: GAMEPAD_LPAD_RIGHT
   action: "right"
+}
+touch_trigger {
+  input: TOUCH_MULTI
+  action: ""
 }

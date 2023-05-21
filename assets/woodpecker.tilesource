@@ -74,7 +74,7 @@ animations {
   start_tile: 3
   end_tile: 5
   playback: PLAYBACK_LOOP_FORWARD
-  fps: 8
+  fps: 16
   flip_horizontal: 0
   flip_vertical: 0
 }

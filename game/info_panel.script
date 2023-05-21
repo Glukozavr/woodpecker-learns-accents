@@ -1,0 +1,19 @@
+local TRIGGER_RESPONSE = hash("trigger_response")
+
+local PLAYER = hash("player")
+
+function init(self)
+	go.set_scale(0.01, "info")
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == TRIGGER_RESPONSE then
+		if message.other_group == PLAYER then
+			if message.enter then
+				go.set_scale(1, "info")
+			else
+				go.set_scale(0.01, "info")
+			end
+		end
+	end
+end

@@ -1,30 +1,10 @@
 name: "game"
 instances {
-  id: "termite"
-  prototype: "/game/termite.go"
-  position {
-    x: 557.0
-    y: 48.0
-    z: 1.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale3 {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-  }
-}
-instances {
   id: "tree"
   prototype: "/game/tree.go"
   position {
     x: 0.0
-    y: 82.0
+    y: 50.0
     z: 0.0
   }
   rotation {
@@ -44,7 +24,7 @@ instances {
   prototype: "/game/tree.go"
   position {
     x: 108.0
-    y: 90.0
+    y: 58.0
     z: 0.0
   }
   rotation {
@@ -64,7 +44,7 @@ instances {
   prototype: "/game/tree.go"
   position {
     x: 242.0
-    y: 66.0
+    y: 34.0
     z: 0.0
   }
   rotation {
@@ -84,7 +64,7 @@ instances {
   prototype: "/game/tree.go"
   position {
     x: 353.0
-    y: 82.0
+    y: 50.0
     z: 0.0
   }
   rotation {
@@ -104,7 +84,7 @@ instances {
   prototype: "/game/tree.go"
   position {
     x: 490.0
-    y: 89.0
+    y: 57.0
     z: 0.0
   }
   rotation {
@@ -124,7 +104,7 @@ instances {
   prototype: "/game/tree.go"
   position {
     x: 602.0
-    y: 82.0
+    y: 50.0
     z: 0.0
   }
   rotation {
@@ -143,8 +123,8 @@ instances {
   id: "tree6"
   prototype: "/game/tree.go"
   position {
-    x: 722.0
-    y: 112.0
+    x: 765.0
+    y: -17.0
     z: 0.0
   }
   rotation {
@@ -163,8 +143,8 @@ instances {
   id: "tree7"
   prototype: "/game/tree.go"
   position {
-    x: 827.0
-    y: 98.0
+    x: 870.0
+    y: -31.0
     z: 0.0
   }
   rotation {
@@ -183,8 +163,8 @@ instances {
   id: "tree8"
   prototype: "/game/tree.go"
   position {
-    x: 931.0
-    y: 112.0
+    x: 974.0
+    y: -17.0
     z: 0.0
   }
   rotation {
@@ -203,8 +183,8 @@ instances {
   id: "tree9"
   prototype: "/game/tree.go"
   position {
-    x: 1054.0
-    y: 129.0
+    x: 1097.0
+    y: 0.0
     z: 0.0
   }
   rotation {
@@ -223,8 +203,8 @@ instances {
   id: "tree10"
   prototype: "/game/tree.go"
   position {
-    x: 1211.0
-    y: 130.0
+    x: 1254.0
+    y: 1.0
     z: 0.0
   }
   rotation {
@@ -243,8 +223,908 @@ instances {
   id: "tree11"
   prototype: "/game/tree.go"
   position {
-    x: 1350.0
+    x: 1393.0
+    y: -17.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "pine_tree"
+  prototype: "/game/pine_tree.go"
+  position {
+    x: 0.0
+    y: -8.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 0.9
+    z: 1.0
+  }
+}
+instances {
+  id: "pine_tree1"
+  prototype: "/game/pine_tree.go"
+  position {
+    x: 89.0
+    y: 0.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: -1.1
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "pine_tree2"
+  prototype: "/game/pine_tree.go"
+  position {
+    x: 232.0
+    y: 5.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 0.8
+    y: 1.05
+    z: 1.0
+  }
+}
+instances {
+  id: "pine_tree3"
+  prototype: "/game/pine_tree.go"
+  position {
+    x: 341.0
+    y: -15.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: -1.0
+    y: 0.8
+    z: 1.0
+  }
+}
+instances {
+  id: "pine_tree4"
+  prototype: "/game/pine_tree.go"
+  position {
+    x: 432.0
+    y: 17.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 0.9
+    y: 1.2
+    z: 1.0
+  }
+}
+instances {
+  id: "pine_tree5"
+  prototype: "/game/pine_tree.go"
+  position {
+    x: 558.0
+    y: 0.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: -1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "pine_tree6"
+  prototype: "/game/pine_tree.go"
+  position {
+    x: 1015.0
+    y: 25.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 0.9
+    z: 1.0
+  }
+}
+instances {
+  id: "pine_tree7"
+  prototype: "/game/pine_tree.go"
+  position {
+    x: 842.0
+    y: 33.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: -1.1
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "pine_tree8"
+  prototype: "/game/pine_tree.go"
+  position {
+    x: 1111.0
+    y: 37.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 0.8
+    y: 1.05
+    z: 1.0
+  }
+}
+instances {
+  id: "pine_tree9"
+  prototype: "/game/pine_tree.go"
+  position {
+    x: 1241.0
+    y: 17.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: -1.0
+    y: 0.8
+    z: 1.0
+  }
+}
+instances {
+  id: "pine_tree10"
+  prototype: "/game/pine_tree.go"
+  position {
+    x: 1388.0
+    y: 49.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 0.9
+    y: 1.2
+    z: 1.0
+  }
+}
+instances {
+  id: "pine_tree11"
+  prototype: "/game/pine_tree.go"
+  position {
+    x: 706.0
+    y: 33.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: -1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "yellow_tree"
+  prototype: "/game/yellow_tree.go"
+  position {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "yellow_tree1"
+  prototype: "/game/yellow_tree.go"
+  position {
+    x: 137.0
+    y: 8.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: -1.2
+    y: 1.1
+    z: 1.0
+  }
+}
+instances {
+  id: "yellow_tree2"
+  prototype: "/game/yellow_tree.go"
+  position {
+    x: 278.0
+    y: 0.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: -1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "yellow_tree3"
+  prototype: "/game/yellow_tree.go"
+  position {
+    x: 412.0
+    y: -17.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 0.8
+    z: 1.0
+  }
+}
+instances {
+  id: "yellow_tree4"
+  prototype: "/game/yellow_tree.go"
+  position {
+    x: 548.0
+    y: 7.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: -1.05
+    y: 1.1
+    z: 1.0
+  }
+}
+instances {
+  id: "yellow_tree5"
+  prototype: "/game/yellow_tree.go"
+  position {
+    x: 684.0
+    y: -33.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "yellow_tree6"
+  prototype: "/game/yellow_tree.go"
+  position {
+    x: 836.0
+    y: -40.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: -1.2
+    y: 0.9
+    z: 1.0
+  }
+}
+instances {
+  id: "yellow_tree7"
+  prototype: "/game/yellow_tree.go"
+  position {
+    x: 972.0
+    y: -25.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: -1.0
+    y: 1.1
+    z: 1.0
+  }
+}
+instances {
+  id: "yellow_tree8"
+  prototype: "/game/yellow_tree.go"
+  position {
+    x: 1093.0
+    y: -33.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 0.9
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "yellow_tree9"
+  prototype: "/game/yellow_tree.go"
+  position {
+    x: 1281.0
+    y: 23.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 0.9
+    y: 0.9
+    z: 1.0
+  }
+}
+instances {
+  id: "yellow_tree10"
+  prototype: "/game/yellow_tree.go"
+  position {
+    x: 1418.0
+    y: 32.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: -1.1
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "yellow_tree11"
+  prototype: "/game/yellow_tree.go"
+  position {
+    x: 1776.0
+    y: 32.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: -1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "yellow_tree12"
+  prototype: "/game/yellow_tree.go"
+  position {
+    x: 1591.0
     y: 112.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 2.0
+    y: 2.0
+    z: 1.0
+  }
+}
+instances {
+  id: "pine_termite"
+  prototype: "/game/pine_termite.go"
+  position {
+    x: 2079.0
+    y: -47.0
+    z: 5.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "yellow_termite"
+  prototype: "/game/yellow_termite.go"
+  position {
+    x: 3907.0
+    y: -79.0
+    z: 5.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "termite1"
+  prototype: "/game/termite.go"
+  position {
+    x: 612.0
+    y: 17.0
+    z: 5.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "termite2"
+  prototype: "/game/termite.go"
+  position {
+    x: 990.0
+    y: -48.0
+    z: 5.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "termite3"
+  prototype: "/game/termite.go"
+  position {
+    x: 1250.0
+    y: -47.0
+    z: 5.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "yellow_termite1"
+  prototype: "/game/yellow_termite.go"
+  position {
+    x: 4168.0
+    y: -79.0
+    z: 5.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "yellow_termite2"
+  prototype: "/game/yellow_termite.go"
+  position {
+    x: 4541.0
+    y: -111.0
+    z: 5.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "yellow_termite3"
+  prototype: "/game/yellow_termite.go"
+  position {
+    x: 4393.0
+    y: -113.0
+    z: 5.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "yellow_termite4"
+  prototype: "/game/yellow_termite.go"
+  position {
+    x: 4706.0
+    y: -113.0
+    z: 5.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "yellow_termite5"
+  prototype: "/game/yellow_termite.go"
+  position {
+    x: 4988.0
+    y: -48.0
+    z: 5.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "yellow_termite6"
+  prototype: "/game/yellow_termite.go"
+  position {
+    x: 5347.0
+    y: -48.0
+    z: 5.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "yellow_termite7"
+  prototype: "/game/yellow_termite.go"
+  position {
+    x: 5116.0
+    y: -48.0
+    z: 5.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "yellow_termite8"
+  prototype: "/game/yellow_termite.go"
+  position {
+    x: 5272.0
+    y: -48.0
+    z: 5.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "pine_termite1"
+  prototype: "/game/pine_termite.go"
+  position {
+    x: 2303.0
+    y: -47.0
+    z: 5.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "pine_termite2"
+  prototype: "/game/pine_termite.go"
+  position {
+    x: 2605.0
+    y: -15.0
+    z: 5.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "pine_termite3"
+  prototype: "/game/pine_termite.go"
+  position {
+    x: 2829.0
+    y: -15.0
+    z: 5.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "pine_termite4"
+  prototype: "/game/pine_termite.go"
+  position {
+    x: 2996.0
+    y: -15.0
+    z: 5.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "pine_termite5"
+  prototype: "/game/pine_termite.go"
+  position {
+    x: 3158.0
+    y: -15.0
+    z: 5.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "heart_spawn"
+  prototype: "/game/heart_spawn.go"
+  position {
+    x: 1600.0
+    y: 0.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "heart_spawn1"
+  prototype: "/game/heart_spawn.go"
+  position {
+    x: 3408.0
+    y: 32.0
     z: 0.0
   }
   rotation {
@@ -263,8 +1143,88 @@ collection_instances {
   id: "player"
   collection: "/game/player.collection"
   position {
-    x: 227.0
+    x: 112.0
     y: 71.0
+    z: 5.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+collection_instances {
+  id: "info_panel"
+  collection: "/game/info_panel.collection"
+  position {
+    x: 206.0
+    y: 15.0
+    z: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+collection_instances {
+  id: "info_panel_accent_central"
+  collection: "/game/info_panel_accent_central.collection"
+  position {
+    x: 343.0
+    y: 16.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+collection_instances {
+  id: "info_panel_accent_southern"
+  collection: "/game/info_panel_accent_southern.collection"
+  position {
+    x: 1794.0
+    y: -48.0
+    z: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+collection_instances {
+  id: "info_panel_accent_northern"
+  collection: "/game/info_panel_accent_northern.collection"
+  position {
+    x: 3584.0
+    y: -80.0
     z: 1.0
   }
   rotation {
@@ -282,7 +1242,9 @@ collection_instances {
 scale_along_z: 0
 embedded_instances {
   id: "level"
-  children: "background"
+  children: "pine_trees"
+  children: "regular_trees"
+  children: "yellow_trees"
   data: "components {\n"
   "  id: \"forest-1\"\n"
   "  component: \"/game/forest-1.tilemap\"\n"
@@ -303,6 +1265,23 @@ embedded_instances {
   "components {\n"
   "  id: \"game\"\n"
   "  component: \"/game/game.script\"\n"
+  "  position {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "  property_decls {\n"
+  "  }\n"
+  "}\n"
+  "components {\n"
+  "  id: \"music\"\n"
+  "  component: \"/assets/sounds/music.sound\"\n"
   "  position {\n"
   "    x: 0.0\n"
   "    y: 0.0\n"
@@ -345,6 +1324,54 @@ embedded_instances {
   "    w: 1.0\n"
   "  }\n"
   "}\n"
+  "embedded_components {\n"
+  "  id: \"respawn\"\n"
+  "  type: \"collisionobject\"\n"
+  "  data: \"collision_shape: \\\"\\\"\\n"
+  "type: COLLISION_OBJECT_TYPE_STATIC\\n"
+  "mass: 0.0\\n"
+  "friction: 0.1\\n"
+  "restitution: 0.5\\n"
+  "group: \\\"respawn\\\"\\n"
+  "mask: \\\"player\\\"\\n"
+  "embedded_collision_shape {\\n"
+  "  shapes {\\n"
+  "    shape_type: TYPE_BOX\\n"
+  "    position {\\n"
+  "      x: 2826.0\\n"
+  "      y: -330.0\\n"
+  "      z: 0.0\\n"
+  "    }\\n"
+  "    rotation {\\n"
+  "      x: 0.0\\n"
+  "      y: 0.0\\n"
+  "      z: 0.0\\n"
+  "      w: 1.0\\n"
+  "    }\\n"
+  "    index: 0\\n"
+  "    count: 3\\n"
+  "  }\\n"
+  "  data: 6538.694\\n"
+  "  data: 50.0\\n"
+  "  data: 10.0\\n"
+  "}\\n"
+  "linear_damping: 0.0\\n"
+  "angular_damping: 0.0\\n"
+  "locked_rotation: false\\n"
+  "bullet: false\\n"
+  "\"\n"
+  "  position {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
   ""
   position {
     x: 0.0
@@ -364,7 +1391,7 @@ embedded_instances {
   }
 }
 embedded_instances {
-  id: "background"
+  id: "regular_trees"
   children: "tree"
   children: "tree1"
   children: "tree10"
@@ -381,6 +1408,108 @@ embedded_instances {
   position {
     x: 64.0
     y: 30.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+embedded_instances {
+  id: "gui"
+  data: "components {\n"
+  "  id: \"gui\"\n"
+  "  component: \"/game/gui.gui\"\n"
+  "  position {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "  property_decls {\n"
+  "  }\n"
+  "}\n"
+  ""
+  position {
+    x: -5.0
+    y: 0.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+embedded_instances {
+  id: "pine_trees"
+  children: "pine_tree"
+  children: "pine_tree1"
+  children: "pine_tree10"
+  children: "pine_tree11"
+  children: "pine_tree2"
+  children: "pine_tree3"
+  children: "pine_tree4"
+  children: "pine_tree5"
+  children: "pine_tree6"
+  children: "pine_tree7"
+  children: "pine_tree8"
+  children: "pine_tree9"
+  data: ""
+  position {
+    x: 1823.0
+    y: 15.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+embedded_instances {
+  id: "yellow_trees"
+  children: "yellow_tree"
+  children: "yellow_tree1"
+  children: "yellow_tree10"
+  children: "yellow_tree11"
+  children: "yellow_tree12"
+  children: "yellow_tree2"
+  children: "yellow_tree3"
+  children: "yellow_tree4"
+  children: "yellow_tree5"
+  children: "yellow_tree6"
+  children: "yellow_tree7"
+  children: "yellow_tree8"
+  children: "yellow_tree9"
+  data: ""
+  position {
+    x: 3620.0
+    y: -16.0
     z: 0.0
   }
   rotation {

@@ -1,15 +1,32 @@
-image: "/assets/images/map/TreeRegular.png"
+image: "/assets/images/map/Tree-Sheet.png"
 tile_width: 128
 tile_height: 160
 tile_margin: 0
 tile_spacing: 0
 collision: ""
 material_tag: "tile"
-collision_groups: "decor"
+animations {
+  id: "pine"
+  start_tile: 2
+  end_tile: 2
+  playback: PLAYBACK_ONCE_FORWARD
+  fps: 30
+  flip_horizontal: 0
+  flip_vertical: 0
+}
 animations {
   id: "regular"
   start_tile: 1
   end_tile: 1
+  playback: PLAYBACK_ONCE_FORWARD
+  fps: 30
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "yellow"
+  start_tile: 3
+  end_tile: 3
   playback: PLAYBACK_ONCE_FORWARD
   fps: 30
   flip_horizontal: 0

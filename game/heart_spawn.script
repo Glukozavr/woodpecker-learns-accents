@@ -1,0 +1,30 @@
+local RESPAWN_COMMAND = hash("respawn") -- a command to unit to respawn
+local REPORT_IN_COMMAND = hash("report_in") -- a command to register as unit
+local REPORT_OUT_COMMAND = hash("report_out") -- a command to unregister as unit
+
+local LEVEL = "/level"
+
+local function spawn(self)
+	local pos = go.get_position()
+	local id = factory.create("#factory", pos)
+	self.heart = id
+end
+
+local function respawn(self)
+	if go.exists(self.heart) then
+		go.delete(self.heart)
+	end
+	spawn(self)
+end
+
+function init(self)
+	self.heart = nil
+	spawn(self)
+	msg.post(LEVEL, REPORT_IN_COMMAND)
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == RESPAWN_COMMAND then
+		respawn(self)
+	end
+end
