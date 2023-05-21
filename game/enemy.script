@@ -67,12 +67,12 @@ local function play_sound(self, sound_comp)
 	-- only play animations which are not already playing
 	if self.sound ~= sound_comp then
 		-- tell the sprite to play the animation
-		self.sound_id = sound.play(sound_comp, nil, function(self, message_id, message, sender)
-			if message.play_id == self.sound_id then
-				self.sound = nil
-				self.sound_id = nil
-			end
-		end)
+		-- self.sound_id = sound.play(sound_comp, nil, function(self, message_id, message, sender)
+		-- 	if message.play_id == self.sound_id then
+		-- self.sound = nil
+		-- self.sound_id = nil
+		-- end
+		-- end)
 		-- remember which animation is playing
 		self.sound = sound_comp
 	end
@@ -228,7 +228,7 @@ local function act(self)
 		end
 		if  distance < 5 then
 			if attack(self, tree) then
-				particlefx.play("#scrap")
+				-- particlefx.play("#scrap")
 			end
 			self.busy = true
 		else
